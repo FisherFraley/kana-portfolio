@@ -1,0 +1,567 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Fisher Fraley — How I Build with AI</title>
+<meta name="description" content="Portfolio by Fisher Fraley — three full-stack projects built with Claude Code, showcasing AI-assisted software development.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --text: #1a1a1a;
+    --text-secondary: #4a4a4a;
+    --text-tertiary: #888;
+    --bg: #fafafa;
+    --surface: #fff;
+    --border: #e5e5e5;
+    --border-light: #f0f0f0;
+    --accent: #111;
+    --accent-subtle: #f5f5f5;
+    --mono: 'JetBrains Mono', monospace;
+    --sans: 'Inter', -apple-system, system-ui, sans-serif;
+  }
+
+  html { font-size: 16px; scroll-behavior: smooth; }
+
+  body {
+    font-family: var(--sans);
+    color: var(--text);
+    background: var(--bg);
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  /* ---- LAYOUT ---- */
+  .container { max-width: 720px; margin: 0 auto; padding: 0 24px; }
+
+  /* ---- HEADER ---- */
+  header {
+    padding: 72px 0 56px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  header h1 {
+    font-size: 1.65rem;
+    font-weight: 600;
+    letter-spacing: -0.03em;
+    margin-bottom: 14px;
+    color: var(--text);
+  }
+
+  header .subtitle {
+    font-size: 0.95rem;
+    color: var(--text-secondary);
+    font-weight: 400;
+    line-height: 1.75;
+    max-width: 580px;
+  }
+
+  header .meta {
+    margin-top: 20px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    font-size: 0.78rem;
+    color: var(--text-tertiary);
+    font-family: var(--mono);
+  }
+
+  header .meta a,
+  header .meta span {
+    color: var(--text-tertiary);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+
+  header .meta a {
+    border-bottom: 1px solid transparent;
+  }
+
+  header .meta a:hover {
+    color: var(--text);
+    border-bottom-color: var(--text-tertiary);
+  }
+
+  /* ---- SECTION HEADINGS ---- */
+  .section-label {
+    font-size: 0.7rem;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--text-tertiary);
+    margin-bottom: 20px;
+  }
+
+  /* ---- INTRO ---- */
+  .intro {
+    padding: 44px 0;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .intro p {
+    font-size: 0.92rem;
+    color: var(--text-secondary);
+    line-height: 1.8;
+    max-width: 600px;
+  }
+
+  .intro p + p { margin-top: 14px; }
+
+  /* ---- PROCESS ---- */
+  .process {
+    padding: 44px 0;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .process-steps {
+    display: grid;
+    gap: 0;
+  }
+
+  .step {
+    display: grid;
+    grid-template-columns: 28px 1fr;
+    gap: 16px;
+    padding: 14px 0;
+  }
+
+  .step + .step {
+    border-top: 1px solid var(--border-light);
+  }
+
+  .step-num {
+    font-family: var(--mono);
+    font-size: 0.72rem;
+    font-weight: 500;
+    color: var(--text-tertiary);
+    padding-top: 2px;
+  }
+
+  .step-content h3 {
+    font-size: 0.88rem;
+    font-weight: 600;
+    margin-bottom: 4px;
+    letter-spacing: -0.01em;
+    color: var(--text);
+  }
+
+  .step-content p {
+    font-size: 0.84rem;
+    color: var(--text-secondary);
+    line-height: 1.7;
+  }
+
+  /* ---- PROJECTS ---- */
+  .projects {
+    padding: 44px 0 0;
+  }
+
+  .project {
+    padding: 36px 0;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .project:first-of-type {
+    padding-top: 28px;
+  }
+
+  .project-header {
+    margin-bottom: 16px;
+  }
+
+  .project-header h3 {
+    font-size: 1.1rem;
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    margin-bottom: 6px;
+  }
+
+  .project-header .tagline {
+    font-size: 0.84rem;
+    color: var(--text-secondary);
+    line-height: 1.65;
+  }
+
+  .project-tech {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+    margin: 14px 0;
+  }
+
+  .tag {
+    font-family: var(--mono);
+    font-size: 0.68rem;
+    padding: 2px 7px;
+    background: var(--accent-subtle);
+    border: 1px solid var(--border);
+    border-radius: 3px;
+    color: var(--text-secondary);
+    line-height: 1.6;
+  }
+
+  .project-detail { margin-top: 20px; }
+
+  .project-detail h4 {
+    font-size: 0.7rem;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--text-tertiary);
+    margin-bottom: 10px;
+  }
+
+  .project-detail p,
+  .project-detail li {
+    font-size: 0.84rem;
+    color: var(--text-secondary);
+    line-height: 1.7;
+  }
+
+  .project-detail ul {
+    list-style: none;
+    padding: 0;
+  }
+
+  .project-detail li {
+    padding: 3px 0 3px 16px;
+    position: relative;
+  }
+
+  .project-detail li::before {
+    content: '—';
+    position: absolute;
+    left: 0;
+    color: var(--border);
+    font-weight: 300;
+  }
+
+  .architecture-block {
+    margin: 16px 0;
+    padding: 16px 20px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    font-family: var(--mono);
+    font-size: 0.72rem;
+    line-height: 1.9;
+    color: var(--text-secondary);
+    white-space: pre;
+    overflow-x: auto;
+  }
+
+  .project-screenshot {
+    margin: 20px 0;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    overflow: hidden;
+    background: var(--surface);
+  }
+
+  .project-screenshot img {
+    width: 100%;
+    height: auto;
+    display: block;
+  }
+
+  .screenshot-placeholder {
+    margin: 20px 0;
+    border: 1px dashed var(--border);
+    border-radius: 4px;
+    padding: 40px;
+    text-align: center;
+    color: var(--text-tertiary);
+    font-size: 0.78rem;
+    font-family: var(--mono);
+    background: var(--accent-subtle);
+  }
+
+  /* ---- FOOTER ---- */
+  footer {
+    padding: 44px 0;
+    text-align: center;
+  }
+
+  footer p {
+    font-size: 0.78rem;
+    color: var(--text-tertiary);
+    line-height: 1.7;
+    font-family: var(--mono);
+  }
+
+  footer .footer-links {
+    margin-top: 8px;
+    font-family: var(--mono);
+  }
+
+  footer a {
+    color: var(--text-tertiary);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+
+  footer a:hover {
+    color: var(--text);
+  }
+
+  footer .sep {
+    color: var(--border);
+    margin: 0 6px;
+  }
+
+  /* ---- RESPONSIVE ---- */
+  @media (max-width: 640px) {
+    header { padding: 48px 0 40px; }
+    header h1 { font-size: 1.35rem; }
+    header .meta { flex-direction: column; gap: 6px; }
+    .intro, .process { padding: 36px 0; }
+    .project { padding: 28px 0; }
+    .project-header h3 { font-size: 1rem; }
+    .architecture-block {
+      font-size: 0.62rem;
+      padding: 12px 14px;
+      line-height: 1.7;
+    }
+    .step { grid-template-columns: 24px 1fr; gap: 12px; }
+  }
+
+  /* ---- PRINT ---- */
+  @media print {
+    body { background: #fff; }
+    header, .intro, .process, .projects, footer { border-color: #ddd; }
+    .screenshot-placeholder { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="container">
+    <h1>Fisher Fraley</h1>
+    <p class="subtitle">I build full-stack applications with AI coding agents. Here's what I've shipped in the last month using Claude Code — and how I did it.</p>
+    <div class="meta">
+      <a href="mailto:fisherfraley@gmail.com">fisherfraley@gmail.com</a>
+      <a href="https://www.linkedin.com/in/fisher-fraley/">linkedin</a>
+      <a href="https://github.com/FisherFraley">github</a>
+      <span>Bend, OR</span>
+    </div>
+  </div>
+</header>
+
+<section class="intro">
+  <div class="container">
+    <h2 class="section-label">Why this exists</h2>
+    <p>Kana's application asked for something that shows how I build with AI. So rather than a cover letter, I built this — a walkthrough of three projects I shipped end-to-end with Claude Code over the past month, including my process, architecture decisions, and what I've learned about when AI output is production-ready and when it isn't.</p>
+    <p>I'm a CS senior at Cal Poly SLO graduating June 2026. The way I build software is fundamentally different from how my professors taught it. I've been using Claude Code daily since January, and it's become my primary development environment.</p>
+  </div>
+</section>
+
+<section class="process">
+  <div class="container">
+    <h2 class="section-label">How I build with Claude Code</h2>
+    <div class="process-steps">
+      <div class="step">
+        <span class="step-num">01</span>
+        <div class="step-content">
+          <h3>Start with the problem, not the code</h3>
+          <p>I describe the business problem and success criteria before writing a single line. The quality of the input determines the quality of the output — so I spend real time on requirements before prompting.</p>
+        </div>
+      </div>
+      <div class="step">
+        <span class="step-num">02</span>
+        <div class="step-content">
+          <h3>Architecture first, implementation second</h3>
+          <p>I have Claude Code propose the system architecture — data models, API boundaries, component structure — and review it against what I know about performance, scalability, and clean data flow before any implementation.</p>
+        </div>
+      </div>
+      <div class="step">
+        <span class="step-num">03</span>
+        <div class="step-content">
+          <h3>Review everything the AI generates</h3>
+          <p>The most important skill. I read every file Claude Code produces. I catch unindexed queries, bloated responses, missing error handling, and poorly structured components. I know what good code looks like — and I redirect the AI when it misses.</p>
+        </div>
+      </div>
+      <div class="step">
+        <span class="step-num">04</span>
+        <div class="step-content">
+          <h3>Debug from logs and stack traces</h3>
+          <p>When something breaks, I read the error, trace it through the system, understand the root cause, and direct Claude Code to the targeted fix. I don't blindly re-prompt — I diagnose first.</p>
+        </div>
+      </div>
+      <div class="step">
+        <span class="step-num">05</span>
+        <div class="step-content">
+          <h3>Ship it, then iterate</h3>
+          <p>Every project below is deployed and running. I push to production, monitor for issues, and iterate. The goal is working software, not mockups.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="projects">
+  <div class="container">
+    <h2 class="section-label">Projects</h2>
+
+    <!-- PROJECT 1: RAG TRADER -->
+    <article class="project">
+      <div class="project-header">
+        <h3>Alpaca RAG Trader</h3>
+        <p class="tagline">Autonomous paper trading agent combining retrieval-augmented generation with live market data — built entirely with Claude Code.</p>
+      </div>
+
+      <div class="project-tech">
+        <span class="tag">Python</span>
+        <span class="tag">SQLite FTS5</span>
+        <span class="tag">Claude API</span>
+        <span class="tag">Alpaca API</span>
+        <span class="tag">Chart.js</span>
+        <span class="tag">stdlib only</span>
+      </div>
+
+      <div class="architecture-block">Market Data (Alpaca)  ──┐
+Portfolio State        ──┼──▶  Reasoner (Claude Sonnet)  ──▶  Risk Validator  ──▶  Broker (Alpaca)
+Knowledge Base (FTS5)  ──┘         ▲
+                                   │
+                          6,906 chunks from
+                          4 investing books</div>
+
+      <div class="project-detail">
+        <h4>What it does</h4>
+        <ul>
+          <li>Ingests 4 investing books (6,906 text chunks) into a SQLite FTS5 knowledge base with BM25 ranking</li>
+          <li>Each cycle: fetches live market data, gets portfolio state, queries relevant book passages, sends context to Claude Sonnet for structured JSON trade decisions with confidence scores</li>
+          <li>Enforces risk guardrails — max 10% per position, $5,000 max per trade, 0.6 minimum confidence threshold</li>
+          <li>Live monitoring dashboard with portfolio metrics, positions, trade history, and confidence distributions</li>
+        </ul>
+      </div>
+
+      <div class="project-detail">
+        <h4>How I built it with Claude Code</h4>
+        <ul>
+          <li>Described the full system first — "autonomous trading agent that consults a book knowledge base before making decisions" — then iterated on architecture until the data flow was clean</li>
+          <li>Deliberately avoided heavy C-extension packages (chromadb, numpy, pydantic). Directed Claude Code to use stdlib: SQLite FTS5 over vector databases, dataclasses over Pydantic, urllib over httpx</li>
+          <li>Caught and corrected AI-generated issues: deprecated Alpaca endpoints, mid-sentence chunking, and loose risk validation logic</li>
+          <li>Built the monitoring dashboard last — described needed metrics, reviewed Chart.js code, iterated on auto-polling for market hours</li>
+        </ul>
+      </div>
+
+      <!-- Replace src with your actual screenshot path -->
+      <div class="project-screenshot">
+        <img src="screenshots/rag-trader.png" alt="Alpaca RAG Trader monitoring dashboard showing portfolio value, positions, trade history, and confidence score charts">
+      </div>
+
+      <div class="project-detail">
+        <h4>Key judgment calls</h4>
+        <ul>
+          <li>Chose FTS5 over vector embeddings — simpler, zero dependencies, and BM25 is good enough for structured book content. The kind of call you make when you understand AI tool strengths vs. actual requirements</li>
+          <li>Added dry-run mode early to validate the full pipeline without real orders — a systems thinking decision that saved debugging time later</li>
+        </ul>
+      </div>
+    </article>
+
+    <!-- PROJECT 2: CASHFLOW TRACKER -->
+    <article class="project">
+      <div class="project-header">
+        <h3>Cashflow Tracker</h3>
+        <p class="tagline">Personal finance app with interactive dashboards for transaction tracking, categorization, and financial reporting.</p>
+      </div>
+
+      <div class="project-tech">
+        <span class="tag">React</span>
+        <span class="tag">TypeScript</span>
+        <span class="tag">Vite</span>
+      </div>
+
+      <div class="project-detail">
+        <h4>What it does</h4>
+        <ul>
+          <li>Interactive dashboards for tracking transactions, assigning categories, and generating financial reports</li>
+          <li>Type-safe with React + TypeScript, fast iteration with Vite</li>
+          <li>Clean component architecture with reusable UI patterns</li>
+        </ul>
+      </div>
+
+      <div class="project-detail">
+        <h4>How I built it with Claude Code</h4>
+        <ul>
+          <li>Scaffolded the full React + TypeScript + Vite project with Claude Code, then reviewed and restructured the component hierarchy for maintainability</li>
+          <li>Developed my debugging workflow here: read the error, understand why (usually a TypeScript type mismatch or missing prop), then give Claude Code a targeted fix instead of a vague "fix this"</li>
+          <li>Learned prompt specificity matters — "add a bar chart" produces worse code than "add a bar chart component that takes monthly expense data grouped by category, renders with accessible colors, and handles empty states"</li>
+        </ul>
+      </div>
+
+      <!-- Replace src with your actual screenshot path -->
+      <div class="project-screenshot">
+        <img src="screenshots/cashflow.png" alt="Cashflow Tracker dashboard showing transaction list, category breakdown, and financial charts">
+      </div>
+    </article>
+
+    <!-- PROJECT 3: MOLTBOOK SCRAPER -->
+    <article class="project">
+      <div class="project-header">
+        <h3>Moltbook Daily Scraper</h3>
+        <p class="tagline">Automated agent that scrapes Moltbook daily, uses Claude AI to identify promising ideas, and emails a curated summary — running on AWS Lambda.</p>
+      </div>
+
+      <div class="project-tech">
+        <span class="tag">Python</span>
+        <span class="tag">BeautifulSoup</span>
+        <span class="tag">Claude API</span>
+        <span class="tag">AWS Lambda</span>
+        <span class="tag">CloudWatch</span>
+        <span class="tag">SMTP</span>
+      </div>
+
+      <div class="architecture-block">CloudWatch (daily cron)  ──▶  Lambda  ──▶  Scraper (BeautifulSoup)
+                                                ──▶  Analyzer (Claude API)
+                                                ──▶  Emailer (SMTP → inbox)</div>
+
+      <div class="project-detail">
+        <h4>What it does</h4>
+        <ul>
+          <li>Scrapes Moltbook posts with BeautifulSoup, evaluates each for innovation, financial potential, feasibility, and risks via the Claude API</li>
+          <li>Delivers curated HTML email digests with the top 5 ideas ranked and analyzed</li>
+          <li>Runs on AWS Lambda + CloudWatch Events, daily at 12:00 UTC — total cost ~$1.50/month</li>
+          <li>Modular architecture: scraper.py, analyzer.py, emailer.py — each independently testable with fallback logic</li>
+        </ul>
+      </div>
+
+      <div class="project-detail">
+        <h4>How I built it with Claude Code</h4>
+        <ul>
+          <li>Described the end-to-end pipeline and had Claude Code generate the modular architecture. Reviewed separation of concerns and ensured each module was independently testable</li>
+          <li>Lambda deployment needed the most correction — IAM policy too permissive, cold start handling wrong. Read CloudWatch logs, identified issues, directed targeted fixes</li>
+          <li>Added configurable parameters (MAX_POSTS, TOP_N_IDEAS, SMTP settings) as a design decision I made before prompting — not something the AI suggested</li>
+        </ul>
+      </div>
+
+      <!-- Replace src with your actual screenshot path -->
+      <div class="project-screenshot">
+        <img src="screenshots/moltbook.png" alt="Moltbook Daily Scraper email digest showing top ranked ideas with analysis">
+      </div>
+    </article>
+
+  </div>
+</section>
+
+<footer>
+  <div class="container">
+    <p>Built with Claude Code, obviously.</p>
+    <p class="footer-links">
+      <a href="mailto:fisherfraley@gmail.com">email</a>
+      <span class="sep">·</span>
+      <a href="https://www.linkedin.com/in/fisher-fraley/">linkedin</a>
+      <span class="sep">·</span>
+      <a href="https://github.com/FisherFraley">github</a>
+    </p>
+  </div>
+</footer>
+
+</body>
+</html>
